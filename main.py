@@ -6,6 +6,7 @@ rand.seed()
 
 pygame.init()
 width, height = 1200, 1000
+background_size = 630
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 titleFont = pygame.font.Font(None, 130)
@@ -63,9 +64,7 @@ class Game():
 		row = 0
 
 		for i, square in enumerate(self.squares):
-			if square == 1:
 				break
-				turn = 1 - turn
 			if square == 0:
 				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+150) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+150):
 					self.squares[i] = 1
@@ -104,7 +103,7 @@ while main:
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			mouse = pygame.mouse.get_pos()
-			if (mouse[0] > 285 and mouse[0] < 285+630) and (mouse[1] > 185 and mouse[1] < 185+630):
+			if (mouse[0] > 285 and mouse[0] < 285+background_size) and (mouse[1] > 185 and mouse[1] < 185+background_size):
 				if turn == 0:
 					instance.build(mouse)
 				elif turn == 1:
@@ -117,7 +116,7 @@ while main:
 					turntext = font.render("Turn: Slasher", True, black)
 
 	game_surface.fill((0, 0, 0, 0))
-	pygame.draw.rect(game_surface, black, (285, 185, 630, 630))
+	pygame.draw.rect(game_surface, black, (285, 185, background_size, background_size))
 
 	instance.draw_squares(game_surface)
 	screen.blit(game_surface, (0, 0))
