@@ -5,32 +5,37 @@ import pygame, time, sys
 rand.seed()
 
 class Game():
+	## Game instance
 
-	def __init__(self, size=4):
+	def __init__(self, size=5):
 		self.size = size
-
 		self.squares = np.zeros(size*size)
 
+		self.xcoords = np.arange(100, 100*(size+1), 100)
+		self.ycoords = np.arange(100, 100*(size+1), 100)
+
 	def draw_squares(self):
+		xcoords = self.xcoords
+		ycoords = self.ycoords
 		col = 1
-		x, y = 102, 102
-		for i, square in enumerate(self.squares):
+		row = 1
+
+		for square in self.squares:
 			if square == 0:
-				pygame.draw.rect(game_surface, white, (x*col, y, 98, 98))
+				pygame.draw.rect(game_surface, white, (xcoords[col-1], ycoords[row-1], 98, 98))
 
 			else:
-				pygame.draw.rect(game_surface, black, (x*col, y, 96, 96))
+				pygame.draw.rect(game_surface, black, (xcoords[col-1], ycoords[row-1], 96, 96))
 
 			col += 1
 			if col == self.size+1:
+				row += 1
 				col = 1
-				y += 102
 
 instance = Game()
 
 pygame.init()
 width, height = 1400, 960
-
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 main = True
@@ -50,12 +55,14 @@ while main:
 			main = False
 
 	game_surface.fill((0, 0, 0, 0))
-	pygame.draw.rect(game_surface, black, (50, 50, 500, 500))
+	pygame.draw.rect(game_surface, black, (50, 50, 700, 700))
 
 	instance.draw_squares()
-	
-
 	screen.blit(game_surface, (0, 0))
+
+	mouse = pygame.mouse.get_pos()
+
+	if mouse 
 
 	pygame.display.flip()
 
