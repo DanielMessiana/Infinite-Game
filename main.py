@@ -28,7 +28,7 @@ turntextRect.center = (width / 2, 850)
 
 game_surface = pygame.Surface((width, height), pygame.SRCALPHA)
 
-class Game():
+class InfGame():
 	## Game instance
 
 	def __init__(self, size=4):
@@ -91,7 +91,7 @@ class Game():
 				row += 1
 				col = 0
 
-instance = Game()
+instance = InfGame()
 
 while main:
 	screen.fill(white)
