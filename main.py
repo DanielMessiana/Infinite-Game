@@ -5,14 +5,20 @@ import pygame, time, sys
 rand.seed()
 
 pygame.init()
-width, height = 1400, 960
+width, height = 1200, 1000
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
+titleFont = pygame.font.Font(None, 130)
 font = pygame.font.Font(None, 40)
 main = True
 
 white = (255, 255, 255)
+light_grey = (10, 10, 10)
 black = (0, 0, 0)
+
+titletext = font.render("The Infinite Game" , True, light_grey)
+titletextRect = titletext.get_rect()
+titletextRect.center = (width / 2, 100)
 
 turn = 0
 turntext = font.render("Turn: " + str(turn), True, black)
@@ -28,8 +34,8 @@ class Game():
 		self.size = size
 		self.squares = np.zeros(size*size)
 
-		self.xcoords = np.arange(100, 100*(size+1), 100)
-		self.ycoords = np.arange(100, 100*(size+1), 100)
+		self.xcoords = np.arange(300, 150*(size+2), 150)
+		self.ycoords = np.arange(200, 150*(size+1), 150)
 
 	def draw_squares(self, game_surface):
 		xcoords = self.xcoords
@@ -39,10 +45,11 @@ class Game():
 
 		for square in self.squares:
 			if square == 0:
-				pygame.draw.rect(game_surface, white, (xcoords[col], ycoords[row], 98, 98))
+				pygame.draw.rect(game_surface, white, (xcoords[col], ycoords[row], 148, 148))
 
 			elif square == 1:
-				pygame.draw.rect(game_surface, black, (xcoords[col], ycoords[row], 96, 96))
+				pygame.draw.rect(game_surface, white, (xcoords[col], ycoords[row], 148, 148))
+				pygame.draw.rect(game_surface, black, (xcoords[col]+1, ycoords[row]+1, 146, 146))
 
 			col += 1
 			if col == self.size:
@@ -56,8 +63,11 @@ class Game():
 		row = 0
 
 		for i, square in enumerate(self.squares):
+			if square == 1:
+				break
+				turn = 1 - turn
 			if square == 0:
-				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+100) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+100):
+				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+150) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+150):
 					self.squares[i] = 1
 					break
 
@@ -74,10 +84,10 @@ class Game():
 
 		for i, square in enumerate(self.squares):
 			if square == 1:
-				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+100) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+100):
+				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+150) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+150):
 					self.squares[i] = 0
 					break
-			
+
 			col += 1
 			if col == self.size:
 				row += 1
@@ -94,19 +104,22 @@ while main:
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			mouse = pygame.mouse.get_pos()
-			if turn == 0:
-				instance.build(mouse)
-			elif turn == 1:
-				instance.slash(mouse)
-			turn = 1 - turn
-			turntext = font.render("Turn: " + str(turn), True, black)
+			if (mouse[0] > 285 and mouse[0] < 285+630) and (mouse[1] > 185 and mouse[1] < 185+630):
+				if turn == 0:
+					instance.build(mouse)
+				elif turn == 1:
+					instance.slash(mouse)
+
+				turn = 1 - turn
+				turntext = font.render("Turn: " + str(turn), True, black)
 
 	game_surface.fill((0, 0, 0, 0))
-	pygame.draw.rect(game_surface, black, (50, 50, 700, 700))
+	pygame.draw.rect(game_surface, black, (285, 185, 630, 630))
 
 	instance.draw_squares(game_surface)
 	screen.blit(game_surface, (0, 0))
 
+	screen.blit(titletext, titletextRect)
 	screen.blit(turntext, turntextRect)
 
 	pygame.display.flip()
