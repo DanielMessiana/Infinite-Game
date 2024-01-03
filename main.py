@@ -64,7 +64,6 @@ class Game():
 		row = 0
 
 		for i, square in enumerate(self.squares):
-				break
 			if square == 0:
 				if (pos[0] > xcoords[col] and pos[0] < xcoords[col]+150) and (pos[1] > ycoords[row] and pos[1] < ycoords[row]+150):
 					self.squares[i] = 1
