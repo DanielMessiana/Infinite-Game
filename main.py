@@ -9,7 +9,7 @@ width, height = 1200, 1000
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 titleFont = pygame.font.Font(None, 130)
-font = pygame.font.Font(None, 40)
+font = pygame.font.Font(None, 50)
 main = True
 
 white = (255, 255, 255)
@@ -21,7 +21,7 @@ titletextRect = titletext.get_rect()
 titletextRect.center = (width / 2, 100)
 
 turn = 0
-turntext = font.render("Turn: " + str(turn), True, black)
+turntext = font.render("Turn: Builder", True, black)
 turntextRect = turntext.get_rect()
 turntextRect.center = (width / 2, 850)
 
@@ -111,7 +111,10 @@ while main:
 					instance.slash(mouse)
 
 				turn = 1 - turn
-				turntext = font.render("Turn: " + str(turn), True, black)
+				if turn == 0:
+					turntext = font.render("Turn: Builder", True, black)
+				if turn == 1:
+					turntext = font.render("Turn: Slasher", True, black)
 
 	game_surface.fill((0, 0, 0, 0))
 	pygame.draw.rect(game_surface, black, (285, 185, 630, 630))
